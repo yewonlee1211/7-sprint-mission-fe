@@ -1,0 +1,39 @@
+.background {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  display: flex;
+  width: 540px;
+  height: 250px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 40px;
+
+  border-radius: 8px;
+  background: #fff;
+
+  z-index: 2;
+}
+
+.text {
+  color: var(--Secondary-800, #1f2937);
+  text-align: center;
+
+  /* pretendard/2lg-18px-medium */
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26px; /* 144.444% */
+}

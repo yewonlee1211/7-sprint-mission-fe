@@ -1,10 +1,10 @@
-import IdArticleContent from "@/components/IdArticleContent";
+import IdArticleContent from "@/components/Article/IdArticleContent";
 import CustomButtonSquare from "@/components/CustomButtonSquare";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "@/styles/articleId.module.css";
-import CommentSection from "@/components/CommentSection";
+import CommentSection from "@/components/Comment/CommentSection";
 
 export default function ArticleId() {
   // isLoading: 데이터 fetch가 완료되어야 화면이 렌더링 되게 하기 위한 상태관리

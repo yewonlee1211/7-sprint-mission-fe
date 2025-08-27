@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CustomButtonSquare from "./CustomButtonSquare";
+import CustomButtonSquare from "../CustomButtonSquare";
 import styles from "./CommentInput.module.css";
 import validInput from "@/utils/validInput";
 import { useUser } from "@/lib/UserContext";

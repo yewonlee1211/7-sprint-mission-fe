@@ -3,7 +3,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./BestArticleSection.module.css";
-import Hearts from "./Hearts";
+import Hearts from "../Hearts";
 import { useRouter } from "next/router";
 import dateFormat from "@/utils/dateFormat";
 

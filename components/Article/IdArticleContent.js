@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "./IdArticleContent.module.css";
-import Hearts from "./Hearts";
-import DropOption from "./DropOption";
+import Hearts from "../Hearts";
+import DropOption from "../DropOption";
 import dateFormat from "@/utils/dateFormat";
 import axios from "axios";
 

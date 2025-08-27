@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./ArticleItem.module.css";
-import Hearts from "./Hearts";
+import Hearts from "../Hearts";
 import { useRouter } from "next/router";
 import dateFormat from "@/utils/dateFormat";
 

@@ -10,12 +10,14 @@ import useAuth from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import SimpleLogin from "@/components/SimpleLogin";
 import BigTitle from "@/components/BigTitle";
+import Modal from "@/components/Modal";
 
 function Login() {
   const emailObject = useEmail();
   const passwordObject = usePassword();
   const { userLogin, userSetting } = useAuth();
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //로그인 post 함수
 
@@ -40,7 +42,7 @@ function Login() {
         router.push("/items");
       }
     } catch (e) {
-      alert("비밀번호가 일치하지 않습니다.");
+      setIsModalOpen(true);
     }
   };
 
@@ -56,9 +58,18 @@ function Login() {
 
   return (
     <div className={styles.login}>
+      {isModalOpen && (
+        <Modal
+          text="비밀번호가 일치하지 않습니다."
+          modalText="확인"
+          onModal={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
       <div className={styles.main}>
         <BigTitle />
-        <div className={styles.content}>
+        <form className={styles.content}>
           <CustomInput object={emailObject} />
           <CustomInput object={passwordObject} />
           <CustomButtonSquare
@@ -74,7 +85,7 @@ function Login() {
               <span>회원가입</span>
             </Link>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import DropOption from "./DropOption";
 import styles from "./CommentList.module.css";
 import dateFormat from "@/utils/dateFormat";
 import { useState } from "react";
-import CustomButtonSquare from "./CustomButtonSquare";
+import CustomButtonSquare from "../CustomButtonSquare";
 import validInput from "@/utils/validInput";
 import axios from "axios";
 import { deleteComments, patchComments } from "@/utils/commentsApi";

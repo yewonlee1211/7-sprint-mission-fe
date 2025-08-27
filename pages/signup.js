@@ -70,7 +70,7 @@ function Signup() {
     <div className={styles.signup}>
       <div className={styles.main}>
         <BigTitle />
-        <div className={styles.content}>
+        <form className={styles.content}>
           <CustomInput object={emailObject} />
           <CustomInput object={nicknameObject} />
           <CustomInput object={passwordObject} />
@@ -96,7 +96,7 @@ function Signup() {
               <span>로그인</span>
             </Link>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

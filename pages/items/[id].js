@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "@/styles/itemsId.module.css";
 import DropOption from "@/components/DropOption";
-import CommentSection from "@/components/CommentSection";
+import CommentSection from "@/components/Comment/CommentSection";
 
 export default function ItemsId() {
   const [isLoading, setIsLoading] = useState(true);
