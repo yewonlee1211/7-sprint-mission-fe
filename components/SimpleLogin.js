@@ -6,7 +6,7 @@ export default function SimpleLogin() {
   return (
     <div className={styles.simpleLogin}>
       <div className={styles.text}>간편 로그인하기</div>
-      <Link href="https://www.google.com">
+      <Link href="https://www.google.com" target="_blank">
         <Image
           src="/ic_google.svg"
           width={42}
@@ -14,7 +14,7 @@ export default function SimpleLogin() {
           alt="구글 간편로그인"
         />
       </Link>
-      <Link href="https://www.kakaocorp.com/page">
+      <Link href="https://www.kakaocorp.com/page" target="_blank">
         <Image
           src="/ic_kakaotalk.svg"
           width={42}

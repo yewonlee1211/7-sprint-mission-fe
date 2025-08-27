@@ -15,6 +15,7 @@ import {
 } from "@/lib/useEmailPassword";
 import SimpleLogin from "@/components/SimpleLogin";
 import BigTitle from "@/components/BigTitle";
+import Modal from "@/components/Modal";
 
 function Signup() {
   const emailObject = useEmail();
@@ -22,6 +23,7 @@ function Signup() {
   const nicknameObject = useNickname();
   const passwordConfirmationObject = usePasswordConfirmation();
   const { userSetting, userLogin } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
 
@@ -53,7 +55,7 @@ function Signup() {
       }
     } catch (e) {
       console.error(e);
-      alert("사용 중인 이메일입니다.");
+      setIsModalOpen(true);
     }
   };
 
@@ -68,6 +70,15 @@ function Signup() {
 
   return (
     <div className={styles.signup}>
+      {isModalOpen && (
+        <Modal
+          text="사용 중인 이메일입니다."
+          modalText="확인"
+          onModal={() => {
+            setIsModalOpen(false);
+          }}
+        />
+      )}
       <div className={styles.main}>
         <BigTitle />
         <form className={styles.content}>
