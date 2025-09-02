@@ -3,12 +3,15 @@ import Image from "next/image";
 import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import useAuth from "@/lib/useAuth";
 import CustomButtonSquare from "./CustomButtonSquare";
 import { useEffect, useState } from "react";
+import { userLogout, userSetting } from "@/lib/useAuth";
+import axios from "axios";
+import { useUser } from "@/lib/UserContext";
 
 function PageLink({ link, text }) {
   const router = useRouter();
+
   function blueText(link) {
     if (router.asPath === "/") {
       return false;
@@ -27,19 +30,7 @@ function PageLink({ link, text }) {
 }
 
 export default function Navbar() {
-  const { userSetting } = useAuth();
-  const [isLogin, setIsLogin] = useState(false);
-  const [user, setUser] = useState({});
-  const router = useRouter();
-
-  // 로그인 된 상태라면,
-  useEffect(() => {
-    const { accessToken, user: userData } = userSetting();
-    if (accessToken) {
-      setIsLogin(true);
-      setUser(userData);
-    }
-  }, []);
+  const { user } = useUser();
 
   return (
     <header className={styles.header}>
@@ -60,7 +51,7 @@ export default function Navbar() {
           <PageLink link="/article" text={"자유게시판"} />
           <PageLink link="/items" text={"중고마켓"} />
         </div>
-        {isLogin ? (
+        {user ? (
           <div className={styles.userInfo}>
             <Image
               src={"/user-default-img.svg"}
@@ -70,6 +61,24 @@ export default function Navbar() {
               height={40}
             />
             <div className={styles.userNickname}>{user.nickname}</div>
+            <CustomButtonSquare
+              text="로그아웃"
+              onClick={async () => {
+                try {
+                  await axios.post(
+                    "/api/auth/logout",
+                    {},
+                    { withCredentials: true }
+                  );
+                } catch (e) {
+                  console.error("로그아웃 에러:", e);
+                } finally {
+                  userLogout();
+                  setIsLogin(false);
+                }
+              }}
+              valid={true}
+            />
           </div>
         ) : (
           <CustomButtonSquare

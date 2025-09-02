@@ -27,7 +27,7 @@
   align-items: center;
 
   border: none;
-  border-radius: 40px;
+  border-radius: 8px;
   background: var(--Primary-100, #3692ff);
 
   color: var(--Cool-Gray-100, #f3f4f6);
@@ -44,4 +44,8 @@
 .invalid {
   color: var(--Cool-Gray-100, #f3f4f6);
   background: var(--Cool-Gray-400, #9ca3af);
+}
+
+.round {
+  border-radius: 40px;
 }

@@ -1,7 +1,7 @@
 import CustomButtonSquare from "@/components/CustomButtonSquare";
 import { useUser } from "@/lib/UserContext";
 import styles from "@/styles/postArticle.module.css";
-import validInput from "@/utils/validInput";
+import validInput from "@/utils/checkValidInput";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -19,13 +19,17 @@ export default function PostArticle() {
 
   async function postNewArticle() {
     try {
-      const res = await axios.post("http://localhost:5000/article", {
-        data: {
-          title,
-          content,
-          userId,
+      const res = await axios.post(
+        "/api/article",
+        {
+          data: {
+            title,
+            content,
+            userId,
+          },
         },
-      });
+        { withCredentials: true }
+      );
       console.log(`포스트 성공`);
       router.push(`/article/${res.data.id}`);
       return res.data;

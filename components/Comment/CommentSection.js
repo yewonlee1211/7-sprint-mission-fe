@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CommentInput from "./CommentInput";
 import CommentList from "./CommentList";
 import useRefetch from "@/lib/useRefetch";
-import { getComments } from "@/utils/commentsApi";
+import { getComments } from "@/api/commentsApi";
 import testType from "@/utils/validType";
 
 export default function CommentSection({ type, id }) {

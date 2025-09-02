@@ -21,7 +21,9 @@ export default function ArticleId() {
     async function getArticleById(id) {
       setIsLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5000/article/${id}`);
+        const res = await axios.get(`/api/article/${id}`, {
+          withCredentials: true,
+        });
         setArticle(res.data);
       } catch (e) {
         console.error(e);

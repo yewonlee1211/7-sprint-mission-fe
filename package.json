@@ -13,6 +13,7 @@
     "@tanstack/react-query-devtools": "^5.83.0",
     "axios": "^1.10.0",
     "axos": "^0.0.1",
+    "cookies-next": "^6.1.0",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

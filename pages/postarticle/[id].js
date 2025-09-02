@@ -1,7 +1,7 @@
 import CustomButtonSquare from "@/components/CustomButtonSquare";
 import { useUser } from "@/lib/UserContext";
 import styles from "@/styles/postArticle.module.css";
-import validInput from "@/utils/validInput";
+import validInput from "@/utils/checkValidInput";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -22,13 +22,17 @@ export default function PatchArticle() {
 
   async function patchNewArticle() {
     try {
-      const res = await axios.patch(`http://localhost:5000/article/${id}`, {
-        data: {
-          title,
-          content,
-          userId,
+      const res = await axios.patch(
+        `/api/article/${id}`,
+        {
+          data: {
+            title,
+            content,
+            userId,
+          },
         },
-      });
+        { withCredentials: true }
+      );
       router.push(`/article/${res.data.id}`);
       return res.data;
     } catch (e) {

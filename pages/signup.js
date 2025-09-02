@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import styles from "@/styles/signup.module.css";
-import Image from "next/image";
 import CustomInput from "@/components/CustomInput";
 import CustomButtonSquare from "@/components/CustomButtonSquare";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-import useAuth from "@/lib/useAuth";
 import {
   useEmail,
   useNickname,
@@ -16,13 +14,13 @@ import {
 import SimpleLogin from "@/components/SimpleLogin";
 import BigTitle from "@/components/BigTitle";
 import Modal from "@/components/Modal";
+import { userLogin, userSetting } from "@/lib/useAuth";
 
 function Signup() {
   const emailObject = useEmail();
   const passwordObject = usePassword();
   const nicknameObject = useNickname();
   const passwordConfirmationObject = usePasswordConfirmation();
-  const { userSetting, userLogin } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
@@ -31,28 +29,21 @@ function Signup() {
   const onSignup = async () => {
     try {
       const res = await axios.post(
-        "https://panda-market-api.vercel.app/auth/signUp",
+        "http://localhost:5000/auth/signup",
         {
           email: emailObject.element,
           nickname: nicknameObject.element,
           password: passwordObject.element,
-          passwordConfirmation: passwordConfirmationObject.element,
         },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          withCredentials: true,
         }
       );
 
-      const { accessToken } = res.data;
-
       // 회원가입 성공시 items 페이지로 이동
-
-      if (accessToken) {
-        userLogin(res.data);
-        router.push("/items");
-      }
+      // accessToken은 백엔드에서 쿠키로 설정됨
+      userLogin(res.data);
+      router.push("/items");
     } catch (e) {
       console.error(e);
       setIsModalOpen(true);
@@ -99,6 +90,7 @@ function Signup() {
               passwordConfirmationObject.checkValid(passwordObject.element)
             }
             type="long"
+            round={true}
           />
           <SimpleLogin />
           <div className={styles.toLogin}>

@@ -6,16 +6,16 @@ import CustomButtonSquare from "@/components/CustomButtonSquare";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-import useAuth from "@/lib/useAuth";
+import { userLogin, userSetting } from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import SimpleLogin from "@/components/SimpleLogin";
 import BigTitle from "@/components/BigTitle";
 import Modal from "@/components/Modal";
+import { loginPost } from "@/api/authApi";
 
 function Login() {
   const emailObject = useEmail();
   const passwordObject = usePassword();
-  const { userLogin, userSetting } = useAuth();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,38 +23,15 @@ function Login() {
 
   const onLogin = async () => {
     try {
-      const res = await axios.post(
-        "https://panda-market-api.vercel.app/auth/signIn",
-        { email: emailObject.element, password: passwordObject.element },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const { accessToken } = res.data;
-
-      // 로그인 성공시 items 페이지로 이동
-
-      if (accessToken) {
-        userLogin(res.data);
-        router.push("/items");
-      }
+      const res = await loginPost(emailObject.element, passwordObject.element);
+      userLogin(res.data);
+      router.push("/items");
     } catch (e) {
       setIsModalOpen(true);
     }
   };
 
   // 페이지 로딩될 때, 만약 이미 로그인 된 상태라면 items 페이지로 이동
-
-  useEffect(() => {
-    const { accessToken } = userSetting();
-
-    if (accessToken) {
-      router.push("/items");
-    }
-  }, []);
 
   return (
     <div className={styles.login}>
@@ -77,6 +54,7 @@ function Login() {
             onClick={onLogin}
             valid={emailObject.checkValid() && passwordObject.checkValid()}
             type="long"
+            round={true}
           />
           <SimpleLogin />
           <div className={styles.toSignup}>

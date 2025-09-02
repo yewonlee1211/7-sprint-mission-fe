@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { checkBlank } from "@/utils/validInput";
+import { checkBlank } from "@/utils/checkValidInput";
 import styles from "./CustomInput.module.css";
 import { useState } from "react";
 

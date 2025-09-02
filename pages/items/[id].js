@@ -1,54 +1,71 @@
 import Hearts from "@/components/Hearts";
-import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "@/styles/itemsId.module.css";
 import DropOption from "@/components/DropOption";
 import CommentSection from "@/components/Comment/CommentSection";
+import CustomButtonSquare from "@/components/CustomButtonSquare";
+import { userSetting } from "@/lib/useAuth";
+import { deleteProductById, getProductByIdServer } from "@/api/productApi";
 
-export default function ItemsId() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [item, setItem] = useState({});
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+
+  try {
+    const item = await getProductByIdServer(id, context.req);
+    return {
+      props: {
+        item,
+        id,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return {
+      notFound: true,
+    };
+  }
+}
+
+export default function ItemsId({ item: initialItem, id }) {
+  const [isOwn, setIsOwn] = useState(false);
+  const [item, setItem] = useState(initialItem);
   const router = useRouter();
-  const { id } = router.query;
 
   const handleDeleteProduct = async () => {
-    const res = await axios.patch(`http://localhost:5000/product/${item.id}`, {
-      data: { deleted: true },
-    });
+    const res = await deleteProductById(item.id);
     router.push("/items");
     return res.data;
   };
 
   const handlePatchProduct = async () => {
     window.sessionStorage.setItem("product", JSON.stringify(item));
-    alert("수정 버튼 작동됨");
-    // router.push(`/postproduct/${item.id}`);
+    router.push(`/postproduct`);
   };
 
   useEffect(() => {
-    if (!id) {
-      return;
-    }
-    async function getProductById(id) {
-      setIsLoading(true);
+    const checkUserOwnership = async () => {
+      const { user } = userSetting();
       try {
-        const res = await axios.get(`http://localhost:5000/product/${id}`);
-        setItem(res.data);
-        console.log(res.data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
+        if (user && item.user) {
+          const isOwner = user.id === item.user.id;
+          setIsOwn(isOwner);
+        } else {
+          setIsOwn(false);
+        }
+      } catch (error) {
+        console.error("Error checking ownership:", error);
+        setIsOwn(false);
       }
-    }
+    };
 
-    getProductById(id);
-  }, [id]);
+    checkUserOwnership();
+  }, [item.user]);
 
-  if (isLoading) {
-    return <div>뭐지</div>;
+  // 상품이 없는 경우
+  if (!item) {
+    return <div>상품을 찾을 수 없습니다.</div>;
   }
 
   return (
@@ -69,10 +86,12 @@ export default function ItemsId() {
                   <div className={styles.itemName}>{item.name}</div>
                   <div className={styles.itemPrice}>{item.price} </div>
                 </div>
-                <DropOption
-                  onDelete={handleDeleteProduct}
-                  onPatch={handlePatchProduct}
-                />
+                {isOwn && (
+                  <DropOption
+                    onDelete={handleDeleteProduct}
+                    onPatch={handlePatchProduct}
+                  />
+                )}
               </div>
               <div className={styles.itemText}>
                 <div className={styles.subTitle}>상품 소개</div>
@@ -93,19 +112,27 @@ export default function ItemsId() {
                   alt="유저 이미지"
                 />
                 <div className={styles.subTextData}>
-                  {/* <div className={styles.nickname}>{item.user.nickname}</div> */}
+                  <div className={styles.nickname}>{item.user?.nickname}</div>
                   <div className={styles.updatedAt}>{item.updatedAt} </div>
                 </div>
               </div>
-              <Hearts
-                heartId={item.PHeart.id}
-                heartCount={item._count.PHeart}
+              {/* <Hearts
+                heartId={item.productHeart?.id}
+                heartCount={item._count?.productHeart}
                 productId={id}
-              />
+              /> */}
             </div>
           </div>
         </div>
-        <CommentSection type={"product"} id={item.id} />
+        {/* <CommentSection type={"product"} id={id} />
+        <CustomButtonSquare
+          text="목록으로 돌아가기"
+          onClick={() => {
+            router.push("/items");
+          }}
+          valid={true}
+          round={true}
+        /> */}
       </div>
     </div>
   );

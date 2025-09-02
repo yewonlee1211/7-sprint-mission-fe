@@ -1,11 +1,9 @@
 import CustomButtonSquare from "../CustomButtonSquare";
 import InputBox from "../InputBox";
 import SortOption from "../SortOption";
-import Image from "next/image";
 import ArticleItem from "./ArticleItem";
 import styles from "./ArticleSection.module.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
 
 export default function ArticleSection() {
@@ -17,21 +15,7 @@ export default function ArticleSection() {
   const router = useRouter();
 
   useEffect(() => {
-    async function getArticles(keyword) {
-      setIsLoading(true);
-      try {
-        const res = await axios.get("http://localhost:5000/article", {
-          params: { keyword, limit: 4 },
-        });
-        setArticles(res.data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    getArticles(keyword);
+    getArticles(keyword, setIsLoading, setArticles);
   }, [keyword]);
 
   let count = 1;

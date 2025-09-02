@@ -1,19 +1,20 @@
 import Image from "next/image";
-import DropOption from "./DropOption";
+import DropOption from "../DropOption";
 import styles from "./CommentList.module.css";
 import dateFormat from "@/utils/dateFormat";
 import { useState } from "react";
 import CustomButtonSquare from "../CustomButtonSquare";
-import validInput from "@/utils/validInput";
-import axios from "axios";
-import { deleteComments, patchComments } from "@/utils/commentsApi";
+import validInput from "@/utils/checkValidInput";
+import { deleteComments, patchComments } from "@/api/commentsApi";
+import { useUser } from "@/lib/UserContext";
 
 function Comment({ type, comment, id, onRefetch }) {
   const [isPatchMode, setIsPatchMode] = useState(false);
   const [value, setValue] = useState(comment.content);
+  const { user, accessToken } = useUser();
 
   const handlePatchComment = async () => {
-    await patchComments(type, id, comment.id);
+    await patchComments(type, id, comment.id, value);
     setIsPatchMode(false);
     onRefetch();
   };
@@ -49,12 +50,14 @@ function Comment({ type, comment, id, onRefetch }) {
     <div className={styles.comment}>
       <div className={styles.content}>
         <div className={styles.text}>{comment.content}</div>
-        <DropOption
-          onPatch={() => {
-            setIsPatchMode(true);
-          }}
-          onDelete={handleDeleteComment}
-        />
+        {comment.user.id === user.id && (
+          <DropOption
+            onPatch={() => {
+              setIsPatchMode(true);
+            }}
+            onDelete={handleDeleteComment}
+          />
+        )}
       </div>
       <div className={styles.info}>
         <Image
@@ -74,6 +77,7 @@ function Comment({ type, comment, id, onRefetch }) {
 }
 
 export default function CommentList({ type, data, id, onRefetch }) {
+  console.log(data);
   return (
     <div className={styles.commentList}>
       {data.map((comment) => {

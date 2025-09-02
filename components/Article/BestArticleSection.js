@@ -1,11 +1,11 @@
 import DefaultImg from "@/public/default.png";
 import Image from "next/image";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "./BestArticleSection.module.css";
 import Hearts from "../Hearts";
 import { useRouter } from "next/router";
 import dateFormat from "@/utils/dateFormat";
+import { getBestArticles } from "@/api/articleApi";
 
 function BestArticle({ article }) {
   const router = useRouter();
@@ -55,22 +55,7 @@ export default function BestArticleSection() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function getBestArticles() {
-      setIsLoading(true);
-      try {
-        const res = await axios.get("http://localhost:5000/article", {
-          params: { limit: 3, orderBy: "hearts" },
-        });
-        console.log(res.data);
-        setBestArticles(res.data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    getBestArticles();
+    getBestArticles(setIsLoading, setBestArticles);
   }, []);
 
   let count = 1;
