@@ -4,10 +4,9 @@ import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import CustomButtonSquare from "./CustomButtonSquare";
-import { useEffect, useState } from "react";
-import { userLogout, userSetting } from "@/lib/useAuth";
 import axios from "axios";
 import { useUser } from "@/lib/UserContext";
+import { useEffect } from "react";
 
 function PageLink({ link, text }) {
   const router = useRouter();
@@ -30,7 +29,14 @@ function PageLink({ link, text }) {
 }
 
 export default function Navbar() {
-  const { user } = useUser();
+  const { user, isPending } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {}, [isPending]);
+
+  if (isPending) {
+    return <div></div>;
+  }
 
   return (
     <header className={styles.header}>
@@ -70,11 +76,9 @@ export default function Navbar() {
                     {},
                     { withCredentials: true }
                   );
+                  router.push("/login");
                 } catch (e) {
                   console.error("로그아웃 에러:", e);
-                } finally {
-                  userLogout();
-                  setIsLogin(false);
                 }
               }}
               valid={true}

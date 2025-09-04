@@ -6,8 +6,13 @@ import styles from "@/styles/itemsId.module.css";
 import DropOption from "@/components/DropOption";
 import CommentSection from "@/components/Comment/CommentSection";
 import CustomButtonSquare from "@/components/CustomButtonSquare";
-import { userSetting } from "@/lib/useAuth";
-import { deleteProductById, getProductByIdServer } from "@/api/productApi";
+import {
+  deleteProductById,
+  getProductByIdServer,
+  getProductByIdClient,
+} from "@/api/productApi";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/lib/useAuth";
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -29,39 +34,49 @@ export async function getServerSideProps(context) {
 }
 
 export default function ItemsId({ item: initialItem, id }) {
-  const [isOwn, setIsOwn] = useState(false);
-  const [item, setItem] = useState(initialItem);
   const router = useRouter();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  // 리액트 쿼리를 사용하여 상품 데이터 관리
+  const {
+    data: item,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => getProductByIdClient(id),
+    initialData: initialItem, // SSR 데이터를 초기값으로 사용
+    staleTime: 5 * 60 * 1000, // 5분간 데이터를 fresh로 유지
+  });
+
+  // 사용자 소유권 확인
+  const isOwn = user && item && user.id === item.user?.id;
 
   const handleDeleteProduct = async () => {
-    const res = await deleteProductById(item.id);
-    router.push("/items");
-    return res.data;
+    try {
+      await deleteProductById(item.id);
+      // 쿼리 캐시에서 해당 상품 데이터 제거
+      queryClient.removeQueries({ queryKey: ["product", id] });
+      router.push("/items");
+    } catch (error) {
+      console.error("상품 삭제 중 오류 발생:", error);
+    }
   };
 
   const handlePatchProduct = async () => {
-    window.sessionStorage.setItem("product", JSON.stringify(item));
     router.push(`/postproduct`);
   };
 
-  useEffect(() => {
-    const checkUserOwnership = async () => {
-      const { user } = userSetting();
-      try {
-        if (user && item.user) {
-          const isOwner = user.id === item.user.id;
-          setIsOwn(isOwner);
-        } else {
-          setIsOwn(false);
-        }
-      } catch (error) {
-        console.error("Error checking ownership:", error);
-        setIsOwn(false);
-      }
-    };
+  // 로딩 상태 처리
+  if (isLoading) {
+    return <div>상품 정보를 불러오는 중...</div>;
+  }
 
-    checkUserOwnership();
-  }, [item.user]);
+  // 에러 상태 처리
+  if (error) {
+    return <div>상품을 불러오는 중 오류가 발생했습니다.</div>;
+  }
 
   // 상품이 없는 경우
   if (!item) {
@@ -116,15 +131,15 @@ export default function ItemsId({ item: initialItem, id }) {
                   <div className={styles.updatedAt}>{item.updatedAt} </div>
                 </div>
               </div>
-              {/* <Hearts
+              <Hearts
                 heartId={item.productHeart?.id}
                 heartCount={item._count?.productHeart}
                 productId={id}
-              /> */}
+              />
             </div>
           </div>
         </div>
-        {/* <CommentSection type={"product"} id={id} />
+        <CommentSection type={"product"} id={id} />
         <CustomButtonSquare
           text="목록으로 돌아가기"
           onClick={() => {
@@ -132,7 +147,7 @@ export default function ItemsId({ item: initialItem, id }) {
           }}
           valid={true}
           round={true}
-        /> */}
+        />
       </div>
     </div>
   );

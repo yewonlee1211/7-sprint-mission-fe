@@ -4,27 +4,25 @@ import CustomInput from "@/components/CustomInput";
 import { useEffect, useState } from "react";
 import CustomButtonSquare from "@/components/CustomButtonSquare";
 import Link from "next/link";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { userLogin, userSetting } from "@/lib/useAuth";
 import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import SimpleLogin from "@/components/SimpleLogin";
 import BigTitle from "@/components/BigTitle";
 import Modal from "@/components/Modal";
-import { loginPost } from "@/api/authApi";
+import { useUser } from "@/lib/UserContext";
 
 function Login() {
   const emailObject = useEmail();
   const passwordObject = usePassword();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { login } = useUser();
 
   //로그인 post 함수
 
   const onLogin = async () => {
     try {
-      const res = await loginPost(emailObject.element, passwordObject.element);
-      userLogin(res.data);
+      await login(emailObject.element, passwordObject.element);
       router.push("/items");
     } catch (e) {
       setIsModalOpen(true);
