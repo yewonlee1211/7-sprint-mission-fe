@@ -17,6 +17,6 @@ export function checkLength(value: string) {
 }
 
 //두 값이 일치하는지 확인 (일치하면 true)
-export function checkMismatch(value: string, standard: string) {
+export function checkMismatch(value: string, standard?: string) {
   return value === standard;
 }

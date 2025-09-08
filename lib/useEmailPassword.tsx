@@ -68,7 +68,7 @@ export function usePasswordConfirmation() {
     setElement: setPasswordConfirmation,
     korText: "비밀번호 확인",
     placeholderText: "비밀번호를 다시 한 번 입력해주세요",
-    checkValid: (password: string) => {
+    checkValid: (password?: string) => {
       return checkMismatch(passwordConfirmation, password);
     },
     invalidText: "비밀번호가 일치하지 않습니다",

@@ -15,7 +15,13 @@ export default function SignupPage() {
   const passwordConfirmationObj = usePasswordConfirmation();
   return (
     <div>
-      <CunstomInput value={emailObj.element} onChange={emailObj.setElement} />
+      <CunstomInput object={emailObj} />
+      <CunstomInput object={nicknameObj} />
+      <CunstomInput object={passwordObj} />
+      <CunstomInput
+        object={passwordConfirmationObj}
+        password={passwordObj.element}
+      />
     </div>
   );
 }
