@@ -30,8 +30,8 @@ export default function CustomInput({ object, password }: Props) {
   const inputType = object.secret && !isVisible ? "password" : "";
 
   const IcVisible = isVisible
-    ? "btn_visibility_on_24px.svg"
-    : "btn_visibility_off_24px.svg";
+    ? "icon/btn_visibility_on_24px.svg"
+    : "icon/btn_visibility_off_24px.svg";
 
   const onVisible = () => {
     setIsVisible((prev) => {
