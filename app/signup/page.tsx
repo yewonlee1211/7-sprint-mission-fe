@@ -15,6 +15,8 @@ import { SyntheticEvent, useState } from "react";
 import { AxiosError } from "axios";
 import styles from "./signup.module.css";
 import Link from "next/link";
+import BigTitle from "@/components/BigTitle";
+import SimpleLogin from "@/components/SimpleLogin";
 
 export default function SignupPage() {
   const emailObj = useEmail();
@@ -46,7 +48,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div>
+    <div className={styles.signup}>
       {isModalOpen && (
         <Modal
           text="사용 중인 이메일입니다."
@@ -56,21 +58,25 @@ export default function SignupPage() {
           }}
         />
       )}
-      <form onSubmit={noEvent}>
-        <CunstomInput object={emailObj} />
-        <CunstomInput object={nicknameObj} />
-        <CunstomInput object={passwordObj} />
-        <CunstomInput
-          object={passwordConfirmationObj}
-          password={passwordObj.element}
-        />
-        <CustomBtn text="회원가입" onClick={onSignup} />
-      </form>
-      <div className={styles.toLogin}>
-        이미 회원이신가요?
-        <Link href="/login" className={styles.link}>
-          <span>로그인</span>
-        </Link>
+      <div className={styles.main}>
+        <BigTitle />
+        <form onSubmit={noEvent} className={styles.content}>
+          <CunstomInput object={emailObj} />
+          <CunstomInput object={nicknameObj} />
+          <CunstomInput object={passwordObj} />
+          <CunstomInput
+            object={passwordConfirmationObj}
+            password={passwordObj.element}
+          />
+          <CustomBtn text="회원가입" onClick={onSignup} />
+        </form>
+        <SimpleLogin />
+        <div className={styles.toLogin}>
+          이미 회원이신가요?
+          <Link href="/login" className={styles.link}>
+            <span>로그인</span>
+          </Link>
+        </div>
       </div>
     </div>
   );

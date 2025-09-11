@@ -1,0 +1,16 @@
+.title {
+  width: auto;
+  height: 132px;
+  display: flex;
+  flex-direction: row;
+  gap: 22px;
+}
+
+.titleText {
+  color: var(--brand-blue, #3692ff);
+  font-family: "ROKAF Sans";
+  font-size: 66.344px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}

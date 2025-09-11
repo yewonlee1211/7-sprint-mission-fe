@@ -10,6 +10,8 @@ import Link from "next/link";
 import { postLogin } from "@/lib/api/user";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
+import BigTitle from "@/components/BigTitle";
+import SimpleLogin from "@/components/SimpleLogin";
 
 export default function LoginPage() {
   const emailObj = useEmail();
@@ -35,7 +37,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
+    <div className={styles.login}>
       {isModalOpen && (
         <Modal
           text="비밀번호가 일치하지 않습니다."
@@ -45,16 +47,20 @@ export default function LoginPage() {
           }}
         />
       )}
-      <form onSubmit={noEvent}>
-        <CustomInput object={emailObj} />
-        <CustomInput object={passwordObj} />
-        <CustomBtn text="로그인" onClick={onLogin} />
-      </form>
-      <div className={styles.toSignup}>
-        판다마켓이 처음이신가요?
-        <Link href="/signup" className={styles.link}>
-          <span>회원가입</span>
-        </Link>
+      <div className={styles.main}>
+        <BigTitle />
+        <form onSubmit={noEvent} className={styles.content}>
+          <CustomInput object={emailObj} />
+          <CustomInput object={passwordObj} />
+          <CustomBtn text="로그인" onClick={onLogin} />
+        </form>
+        <SimpleLogin />
+        <div className={styles.toSignup}>
+          판다마켓이 처음이신가요?
+          <Link href="/signup" className={styles.link}>
+            <span>회원가입</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
