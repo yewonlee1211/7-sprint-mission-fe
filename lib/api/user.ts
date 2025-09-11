@@ -28,3 +28,12 @@ export async function postLogin(email: string, password: string) {
     throw e;
   }
 }
+
+export async function getMyData() {
+  try {
+    const res = await apiClient.get("/auth");
+    return res;
+  } catch (e) {
+    throw e;
+  }
+}

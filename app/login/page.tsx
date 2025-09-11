@@ -7,21 +7,22 @@ import { useEmail, usePassword } from "@/lib/useEmailPassword";
 import { SyntheticEvent, useState } from "react";
 import styles from "./login.module.css";
 import Link from "next/link";
-import { postLogin } from "@/lib/api/user";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import BigTitle from "@/components/BigTitle";
 import SimpleLogin from "@/components/SimpleLogin";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function LoginPage() {
   const emailObj = useEmail();
   const passwordObj = usePassword();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
 
   const onLogin = async () => {
     try {
-      const res = await postLogin(emailObj.element, passwordObj.element);
+      await login(emailObj.element, passwordObj.element);
       router.push("/items");
     } catch (e) {
       if (e instanceof AxiosError) {
@@ -50,8 +51,8 @@ export default function LoginPage() {
       <div className={styles.main}>
         <BigTitle />
         <form onSubmit={noEvent} className={styles.content}>
-          <CustomInput object={emailObj} />
-          <CustomInput object={passwordObj} />
+          <CustomInput object={emailObj} auto="username" />
+          <CustomInput object={passwordObj} auto="current-password" />
           <CustomBtn
             text="로그인"
             onClick={onLogin}

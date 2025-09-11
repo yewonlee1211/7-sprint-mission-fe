@@ -61,12 +61,13 @@ export default function SignupPage() {
       <div className={styles.main}>
         <BigTitle />
         <form onSubmit={noEvent} className={styles.content}>
-          <CunstomInput object={emailObj} />
+          <CunstomInput object={emailObj} auto="email" />
           <CunstomInput object={nicknameObj} />
-          <CunstomInput object={passwordObj} />
+          <CunstomInput object={passwordObj} auto="new-password" />
           <CunstomInput
             object={passwordConfirmationObj}
             password={passwordObj.element}
+            auto="new-password"
           />
           <CustomBtn
             text="회원가입"

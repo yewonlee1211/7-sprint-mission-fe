@@ -4,6 +4,7 @@ import styles from "./CustomInput.module.css";
 import Image from "next/image";
 
 interface CustomObject {
+  id: string;
   element: any;
   setElement: (value: any) => void;
   korText: string;
@@ -15,10 +16,11 @@ interface CustomObject {
 
 interface Props {
   object: CustomObject;
+  auto?: string;
   password?: string;
 }
 
-export default function CustomInput({ object, password }: Props) {
+export default function CustomInput({ object, auto = "off", password }: Props) {
   const { element, checkValid, invalidText } = object;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -27,7 +29,7 @@ export default function CustomInput({ object, password }: Props) {
     isValid && !checkBlank(element)
       ? `${styles.input} ${styles.invalid}`
       : styles.input;
-  const inputType = object.secret && !isVisible ? "password" : "";
+  const inputType = object.secret && !isVisible ? "password" : "text";
 
   const IcVisible = isVisible
     ? "icon/btn_visibility_on_24px.svg"
@@ -46,13 +48,18 @@ export default function CustomInput({ object, password }: Props) {
 
   return (
     <div className={styles.customInput}>
-      <label className={styles.text}>{object.korText}</label>
+      <label className={styles.text} htmlFor={object.id}>
+        {object.korText}
+      </label>
       <input
+        id={object.id}
+        name={object.id}
         className={inputStyles}
         placeholder={object.placeholderText}
         value={object.element}
         onChange={handleChange}
         type={inputType}
+        autoComplete={auto}
       />
       {object.secret && (
         <Image

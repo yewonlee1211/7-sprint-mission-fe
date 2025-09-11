@@ -16,6 +16,7 @@ export function useEmail() {
   const [email, setEmail] = useState("");
 
   return {
+    id: "email",
     element: email,
     setElement: setEmail,
     korText: "이메일",
@@ -32,6 +33,7 @@ export function useNickname() {
   const [nickname, setNickname] = useState("");
 
   return {
+    id: "username",
     element: nickname,
     setElement: setNickname,
     korText: "닉네임",
@@ -48,6 +50,7 @@ export function usePassword() {
   const [password, setPassword] = useState("");
 
   return {
+    id: "password",
     element: password,
     setElement: setPassword,
     korText: "비밀번호",
@@ -64,6 +67,7 @@ export function usePasswordConfirmation() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   return {
+    id: "password-repeat",
     element: passwordConfirmation,
     setElement: setPasswordConfirmation,
     korText: "비밀번호 확인",

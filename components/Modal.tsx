@@ -17,7 +17,7 @@ export default function Modal({ text, btnText, onModal }: Props) {
         }}
       >
         <div className={styles.text}>{text}</div>
-        <CustomBtn text={btnText} onClick={onModal} />
+        <CustomBtn text={btnText} onClick={onModal} valid={true} />
       </div>
     </div>
   );
