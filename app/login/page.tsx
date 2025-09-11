@@ -52,7 +52,13 @@ export default function LoginPage() {
         <form onSubmit={noEvent} className={styles.content}>
           <CustomInput object={emailObj} />
           <CustomInput object={passwordObj} />
-          <CustomBtn text="로그인" onClick={onLogin} />
+          <CustomBtn
+            text="로그인"
+            onClick={onLogin}
+            valid={emailObj.checkValid() && passwordObj.checkValid()}
+            type="long"
+            round={true}
+          />
         </form>
         <SimpleLogin />
         <div className={styles.toSignup}>

@@ -68,7 +68,18 @@ export default function SignupPage() {
             object={passwordConfirmationObj}
             password={passwordObj.element}
           />
-          <CustomBtn text="회원가입" onClick={onSignup} />
+          <CustomBtn
+            text="회원가입"
+            onClick={onSignup}
+            valid={
+              emailObj.checkValid() &&
+              nicknameObj.checkValid() &&
+              passwordObj.checkValid() &&
+              passwordConfirmationObj.checkValid(passwordObj.element)
+            }
+            type="long"
+            round={true}
+          />
         </form>
         <SimpleLogin />
         <div className={styles.toLogin}>
