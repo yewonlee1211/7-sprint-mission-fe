@@ -2,11 +2,15 @@ import { ReactNode } from "react";
 import styles from "./CustomBtn.module.css";
 
 interface Props {
-  text: string;
+  text?: string;
   children?: ReactNode;
-  onClick?: any;
+  onClick?: () => void;
 }
 
-export default function CustomBtn({ text }: Props) {
-  return <button className={styles.btn}>{text}</button>;
+export default function CustomBtn({ text, onClick }: Props) {
+  return (
+    <button className={styles.btn} onClick={onClick}>
+      {text}
+    </button>
+  );
 }
