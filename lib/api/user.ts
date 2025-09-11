@@ -16,3 +16,15 @@ export async function postSignup(
     throw e;
   }
 }
+
+export async function postLogin(email: string, password: string) {
+  try {
+    const res = await apiClient.post("/auth", {
+      email,
+      password,
+    });
+    return res;
+  } catch (e) {
+    throw e;
+  }
+}

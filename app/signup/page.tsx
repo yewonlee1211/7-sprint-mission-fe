@@ -13,6 +13,8 @@ import {
 import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
 import { AxiosError } from "axios";
+import styles from "./signup.module.css";
+import Link from "next/link";
 
 export default function SignupPage() {
   const emailObj = useEmail();
@@ -64,6 +66,12 @@ export default function SignupPage() {
         />
         <CustomBtn text="회원가입" onClick={onSignup} />
       </form>
+      <div className={styles.toLogin}>
+        이미 회원이신가요?
+        <Link href="/login" className={styles.link}>
+          <span>로그인</span>
+        </Link>
+      </div>
     </div>
   );
 }
