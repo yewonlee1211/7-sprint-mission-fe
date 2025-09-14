@@ -1,7 +1,14 @@
 "use client";
 
-import { getMyData, postLogin } from "@/lib/api/user";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { getMyData, postLogin, postLogout } from "@/lib/api/user";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface User {
   id: number;
@@ -12,6 +19,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  getMe: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   updateMe: () => Promise<void>;
@@ -19,6 +27,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  getMe: async () => {},
   login: async () => {},
   logout: () => {},
   updateMe: async () => {},
@@ -26,11 +35,17 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const currentPath = usePathname();
+  const router = useRouter();
 
   async function getMe() {
-    const res = await getMyData();
-    const nextUser = res.data.user;
-    setUser(nextUser);
+    try {
+      const res = await getMyData();
+      const nextUser = res.data.user;
+      setUser(nextUser);
+    } catch (e) {
+      return;
+    }
   }
 
   async function login(email: string, password: string) {
@@ -39,15 +54,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function logout() {
-    return;
+    await postLogout();
+    setUser(null);
+    router.push("/");
   }
 
   async function updateMe() {
     return;
   }
 
+  useEffect(() => {
+    getMe();
+  }, [currentPath, user]);
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateMe }}>
+    <AuthContext.Provider value={{ user, login, logout, updateMe, getMe }}>
       {children}
     </AuthContext.Provider>
   );
@@ -55,8 +76,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error("useAuth는 AuthProvider 안에서 사용해야 합니다.");
   }
+
   return context;
 }

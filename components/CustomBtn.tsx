@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode, SyntheticEvent } from "react";
 import styles from "./CustomBtn.module.css";
 

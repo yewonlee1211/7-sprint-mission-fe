@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "axios": "^1.11.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0"

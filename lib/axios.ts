@@ -12,5 +12,4 @@ const apiClient = axios.create({
   },
 });
 
-// 요청 인터셉터 및 응답 인터셉터는 필요하면 추가
 export default apiClient;

@@ -17,6 +17,7 @@ import styles from "./signup.module.css";
 import Link from "next/link";
 import BigTitle from "@/components/BigTitle";
 import SimpleLogin from "@/components/SimpleLogin";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export default function SignupPage() {
   const emailObj = useEmail();
@@ -25,6 +26,7 @@ export default function SignupPage() {
   const passwordConfirmationObj = usePasswordConfirmation();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { getMe } = useAuth();
 
   const onSignup = async () => {
     try {
@@ -33,6 +35,7 @@ export default function SignupPage() {
         nicknameObj.element,
         passwordObj.element
       );
+      await getMe();
       router.push("/items");
     } catch (e) {
       if (e instanceof AxiosError) {
