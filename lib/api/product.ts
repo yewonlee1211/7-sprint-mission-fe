@@ -1,9 +1,12 @@
-import { AxiosError } from "axios";
 import apiClient from "../axios";
 
-export async function getProducts() {
+export async function getProducts(params: {
+  keyword: string;
+  order: string;
+  page: number;
+}) {
   try {
-    const res = await apiClient.get("/product");
+    const res = await apiClient.get("/product", { params });
     return res;
   } catch (e: unknown) {
     // AxiosError인지 확인

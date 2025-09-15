@@ -1,0 +1,20 @@
+.input {
+  border-radius: 12px;
+  background: var(--Secondary-100, #f3f4f6);
+  border: none;
+  width: 325px;
+  height: 42px;
+  padding: 9px 20px 9px 16px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--Secondary-400, #9ca3af);
+
+  /* pretendard/lg-16px-regular */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 162.5% */
+}
