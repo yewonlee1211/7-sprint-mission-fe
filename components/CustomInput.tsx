@@ -12,15 +12,22 @@ interface CustomObject {
   checkValid: (value?: string) => boolean;
   invalidText: string;
   secret?: boolean;
+  long?: boolean;
 }
 
 interface Props {
   object: CustomObject;
   auto?: string;
   password?: string;
+  long?: boolean;
 }
 
-export default function CustomInput({ object, auto = "off", password }: Props) {
+export default function CustomInput({
+  object,
+  auto = "off",
+  password,
+  long = object.long,
+}: Props) {
   const { element, checkValid, invalidText } = object;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -41,10 +48,29 @@ export default function CustomInput({ object, auto = "off", password }: Props) {
     });
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const value = e.target.value;
     object.setElement(value);
   };
+
+  if (long) {
+    return (
+      <div className={styles.customInput}>
+        <label className={styles.text}>{object.korText}</label>
+        <textarea
+          className={`${inputStyles} ${long ? styles.long : ""}`}
+          placeholder={object.placeholderText}
+          value={object.element}
+          onChange={handleChange}
+        />
+        {isValid && !checkBlank(element) && (
+          <div className={styles.invalidText}>{invalidText}</div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.customInput}>

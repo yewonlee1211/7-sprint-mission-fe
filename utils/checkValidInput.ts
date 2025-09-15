@@ -12,11 +12,16 @@ export function checkEmail(value: string) {
 }
 
 // 8글자 이상인지 확인 (8글자 이상이면 true)
-export function checkLength(value: string) {
-  return value.trim().length >= 8;
+export function checkLength(value: string, n = 8) {
+  return value.trim().length >= n;
 }
 
 //두 값이 일치하는지 확인 (일치하면 true)
 export function checkMismatch(value: string, standard?: string) {
   return value === standard;
+}
+
+// 숫자인지 확인
+export function checkNumber(value: string) {
+  return Number(value) > 0 && Number.isInteger(Number(value));
 }

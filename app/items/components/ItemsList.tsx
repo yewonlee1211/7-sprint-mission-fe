@@ -1,6 +1,11 @@
+"use client";
+
 import styles from "./ItemsList.module.css";
 import Image from "next/image";
 import { getImageUrl } from "@/utils/imageUtils";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthProvider";
+import { getProducts } from "@/lib/api/product";
 
 interface Item {
   id: string;
@@ -47,11 +52,46 @@ function Item({ item, itemsSection }: ItemProps) {
 }
 
 interface ListProps {
-  items: Item[];
+  params: { order: string; keyword: string; page: number };
   itemsSection: string;
 }
 
-function ItemsList({ items, itemsSection }: ListProps) {
+function ItemsList({ params, itemsSection }: ListProps) {
+  const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { isLoading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (authLoading) {
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await getProducts(params);
+        console.log(res);
+        setItems(res.data || []);
+      } catch (err: any) {
+        console.error("상품 데이터 로드 실패:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [authLoading, params]);
+
+  if (authLoading || loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>에러: {error}</div>;
+  }
+
   return (
     <ul className={`${styles.itemsList} ${styles[itemsSection]}`}>
       {items.map((item) => (

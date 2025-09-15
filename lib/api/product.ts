@@ -16,3 +16,13 @@ export async function getProducts(params: {
     throw new Error("알 수 없는 오류가 발생했습니다.");
   }
 }
+
+export async function postProduct(data: {
+  name: string;
+  price: string;
+  description: string;
+}) {
+  const res = await apiClient.post("/product", { data });
+
+  return res;
+}

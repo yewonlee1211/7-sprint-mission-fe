@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import SortOptions from "@/components/SortOptions";
 import { Dispatch, SetStateAction } from "react";
 import styles from "./SellingItemsHeader.module.css";
+import CustomLink from "@/components/CustomLink";
 
 type Value = {
   order: string;
@@ -27,7 +28,7 @@ export default function SellingItemsHeader({ value, setValue }: Props) {
         value={value.keyword}
         onChange={(keyword: string) => changeValue("keyword", keyword)}
       />
-      <CustomBtn text="상품 등록하기" onClick={() => {}} valid={true} />
+      <CustomLink text="상품 등록하기" link="/items/post" />
       <SortOptions
         currentOrderBy={value.order}
         onChange={(order: string) => changeValue("order", order)}
