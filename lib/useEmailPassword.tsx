@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   checkBlank,
   checkEmail,
-  checkLength,
+  checkMin,
   checkMismatch,
 } from "@/utils/checkValidInput";
 
@@ -56,7 +56,7 @@ export function usePassword() {
     korText: "비밀번호",
     placeholderText: "비밀번호를 입력해주세요",
     checkValid: () => {
-      return checkLength(password);
+      return checkMin(password);
     },
     invalidText: "비밀번호는 8글자 이상이어야 합니다",
     secret: true,

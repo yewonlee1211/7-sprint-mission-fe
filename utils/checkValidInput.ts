@@ -11,9 +11,14 @@ export function checkEmail(value: string) {
   return emailRegex.test(value.trim());
 }
 
-// 8글자 이상인지 확인 (8글자 이상이면 true)
-export function checkLength(value: string, n = 8) {
+// n글자 이상인지 확인 (n글자 이상이면 true, 기본 8)
+export function checkMin(value: string, n = 8) {
   return value.trim().length >= n;
+}
+
+// n글자 이하인지 확인(기본 5)
+export function checkMax(value: string, n = 5) {
+  return value.trim().length <= n;
 }
 
 //두 값이 일치하는지 확인 (일치하면 true)

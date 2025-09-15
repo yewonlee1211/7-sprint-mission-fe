@@ -1,0 +1,36 @@
+.list {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.tag {
+  height: 36px;
+  padding: 6px 12px 6px 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 26px;
+  background: var(--Cool-Gray-100, #f3f4f6);
+}
+
+.text {
+  color: var(--Secondary-800, #1f2937);
+
+  /* pretendard/lg-16px-regular */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 162.5% */
+}
+
+.icon {
+  background-color: var(--Cool-Gray-400, #9ca3af);
+  border-radius: 50px;
+  width: 20px;
+  height: 20px;
+}

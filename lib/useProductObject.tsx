@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { checkBlank, checkLength, checkNumber } from "@/utils/checkValidInput";
+import { checkBlank, checkMax, checkNumber } from "@/utils/checkValidInput";
 
 // name, url, duedate, price 등을 모은 커스텀 훅
 // 각각 usename() 등은 객체를 리턴한다
@@ -53,10 +53,43 @@ export function useDescription() {
     korText: "상품 소개",
     placeholderText: "상품 소개를 입력해주세요",
     checkValid: () => {
-      return !checkBlank(description) && !checkLength(description, 301);
+      return !checkBlank(description) && checkMax(description, 300);
     },
     invalidText: "상품 소개는 최대 300자까지 입력 가능합니다",
     secret: false,
     long: true,
+  };
+}
+
+export function useTag() {
+  const [tag, setTag] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+
+  const handleTag = (value: string) => {
+    if (value !== value.trim() && checkMax(tag) && !checkBlank(tag)) {
+      if (!tags.includes(tag)) {
+        setTags((prev) => {
+          return [...prev, tag];
+        });
+      }
+      setTag("");
+    } else {
+      setTag(value.trim());
+    }
+  };
+
+  return {
+    id: "tag",
+    element: tag,
+    setElement: handleTag,
+    korText: "태그",
+    placeholderText: "태그를 입력해주세요",
+    checkValid: () => {
+      return !checkBlank(tag) && checkMax(tag);
+    },
+    invalidText: "5글자 이내로 입력해주세요",
+    secret: false,
+    tagList: tags,
+    setTags: setTags,
   };
 }
