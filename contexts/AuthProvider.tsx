@@ -19,6 +19,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isLoading: boolean;
   getMe: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -27,6 +28,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  isLoading: true,
   getMe: async () => {},
   login: async () => {},
   logout: () => {},
@@ -35,16 +37,20 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const currentPath = usePathname();
   const router = useRouter();
 
   async function getMe() {
     try {
+      setIsLoading(true);
       const res = await getMyData();
       const nextUser = res.data.user;
       setUser(nextUser);
     } catch (e) {
-      return;
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -65,10 +71,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     getMe();
-  }, [currentPath, user]);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateMe, getMe }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, logout, updateMe, getMe }}
+    >
       {children}
     </AuthContext.Provider>
   );

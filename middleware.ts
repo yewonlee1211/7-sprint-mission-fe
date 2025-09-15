@@ -5,16 +5,21 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const publicPaths = ["/", "/login", "/signup"];
-  const token = request.cookies.get("refreshToken")?.value;
 
-  // 공개 페이지인 경우. 토큰 있으면 -> items 페이지로
+  // accessToken과 refreshToken 모두 체크
+  const accessToken = request.cookies.get("accessToken")?.value;
+  const refreshToken = request.cookies.get("refreshToken")?.value;
+  const hasValidToken = accessToken || refreshToken;
+
+  // 공개 페이지인 경우
   if (publicPaths.includes(pathname)) {
-    if (token) {
+    // 토큰이 있으면 items 페이지로 리다이렉트
+    if (hasValidToken) {
       return NextResponse.redirect(new URL("/items", request.url));
     }
   } else {
-    // 공개 페이지가 아닌 경우. 토큰 없으면 -> 랜딩 페이지로
-    if (!token) {
+    // 보호된 페이지인 경우
+    if (!hasValidToken) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

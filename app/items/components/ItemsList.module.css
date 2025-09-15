@@ -1,0 +1,85 @@
+.itemsList {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 1200px;
+}
+
+.itemsList.selling {
+  flex-wrap: wrap;
+  gap: 40px 0px;
+  justify-content: space-between;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  width: 282px;
+  gap: 16px;
+}
+
+.item.selling {
+  width: 220px;
+}
+
+.itemImg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.itemImg.best {
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itemText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.itemTitle {
+  color: var(--Secondary-800, #1f2937);
+
+  /* pretendard/md-14px-medium */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 171.429% */
+}
+
+.itemPrice {
+  color: var(--Secondary-800, #1f2937);
+
+  /* pretendard/lg-16px-bold */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 26px; /* 162.5% */
+}
+
+.itemHeart {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  color: var(--Secondary-600, #4b5563);
+
+  /* pretendard/xs-12px-medium */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+}

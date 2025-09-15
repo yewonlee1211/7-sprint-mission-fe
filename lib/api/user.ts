@@ -38,16 +38,6 @@ export async function getMyData() {
     const res = await apiClient.get("/auth");
     return res;
   } catch (e: any) {
-    if (e.response?.status === 401) {
-      await getRefreshToken();
-
-      try {
-        const res = await apiClient.get("/auth");
-        return res;
-      } catch (e) {
-        throw e;
-      }
-    }
     throw e;
   }
 }
@@ -57,16 +47,6 @@ export async function postLogout() {
   try {
     const res = await apiClient.post("/auth/logout");
     return res;
-  } catch (e) {
-    throw e;
-  }
-}
-
-// 리프레쉬 토큰 보내기
-async function getRefreshToken() {
-  try {
-    await apiClient.get("/auth/refresh/token");
-    return;
   } catch (e) {
     throw e;
   }
