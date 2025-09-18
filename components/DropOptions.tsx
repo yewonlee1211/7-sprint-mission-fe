@@ -1,10 +1,12 @@
+"use client";
+
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import styles from "./DropOptions.module.css";
 
 interface Props {
-  onPatch: () => void;
-  onDelete: () => void;
+  onPatch?: () => void;
+  onDelete?: () => void;
 }
 
 export default function DropOptions({ onPatch, onDelete }: Props) {

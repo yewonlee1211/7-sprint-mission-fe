@@ -34,3 +34,13 @@ export async function postProduct(data: {
     throw new Error("알 수 없는 오류가 발생했습니다.");
   }
 }
+
+export async function getProductById(id: string) {
+  try {
+    const response = await apiClient.get(`/product/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    throw error;
+  }
+}

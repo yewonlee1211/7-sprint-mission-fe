@@ -31,7 +31,7 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
       try {
         // 백엔드의 리프레시 엔드포인트 호출 (쿠키 기반), 토큰 갱신 후 원 요청 재시도
-        await apiClient.get("/auth/refresh/token", {
+        await apiClient.post("/auth/refresh/token", {
           _retry: true,
         } as RetryAxiosRequestConfig);
         return apiClient(originalRequest);

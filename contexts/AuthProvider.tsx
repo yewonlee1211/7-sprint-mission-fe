@@ -11,7 +11,7 @@ import {
 } from "react";
 
 interface User {
-  id: number;
+  id: string;
   email: string;
   nickname: string;
   img: string;

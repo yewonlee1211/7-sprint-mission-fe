@@ -1,0 +1,74 @@
+.heart.big {
+  display: flex;
+  flex-direction: row;
+
+  gap: 4px;
+
+  align-items: center;
+}
+
+.heartBtn.big {
+  width: 32px;
+  height: 32px;
+}
+
+.heartCount.big {
+  color: var(--Cool-Gray-500, #6b7280);
+
+  /* pretendard/lg-16px-medium */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26px; /* 162.5% */
+}
+
+.heart.middle {
+  display: flex;
+  flex-direction: row;
+
+  gap: 8px;
+
+  align-items: center;
+}
+
+.heartBtn.middle {
+  width: 24px;
+  height: 24px;
+}
+
+.heartCount.middle {
+  color: var(--Secondary-500, #6b7280);
+
+  /* pretendard/lg-16px-regular */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 162.5% */
+}
+
+.heart.small {
+  display: flex;
+  flex-direction: row;
+
+  gap: 4px;
+
+  align-items: center;
+}
+
+.heartBtn.small {
+  width: 16px;
+  height: 16px;
+}
+
+.heartCount.small {
+  color: var(--Secondary-500, #6b7280);
+
+  /* pretendard/md-14px-regular */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+}

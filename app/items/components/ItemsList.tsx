@@ -6,6 +6,7 @@ import { getImageUrl } from "@/utils/imageUtils";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthProvider";
 import { getProducts } from "@/lib/api/product";
+import { useRouter } from "next/navigation";
 
 interface Item {
   id: string;
@@ -24,9 +25,15 @@ interface ItemProps {
 
 function Item({ item, itemsSection }: ItemProps) {
   const { name, descripton, price, images, favoriteCount, createdAt } = item;
+  const router = useRouter();
 
   return (
-    <div className={`${styles.item} ${styles[itemsSection]}`}>
+    <div
+      className={`${styles.item} ${styles[itemsSection]}`}
+      onClick={() => {
+        router.push(`/items/${item.id}`);
+      }}
+    >
       <img
         className={`${styles.itemImg} ${styles[itemsSection]}`}
         src={getImageUrl(images)}

@@ -35,8 +35,12 @@ export function Tag({ tag, onDelete, flag }: TagProps) {
   );
 }
 
+interface Tag {
+  content: string;
+}
+
 interface Props {
-  tagList: string[];
+  tagList: Tag[];
   onDelete?: Dispatch<SetStateAction<string[]>>;
 }
 
@@ -46,8 +50,15 @@ export default function TagList({ tagList, onDelete }: Props) {
 
   return (
     <ul className={styles.list}>
-      {tagList.map((tag) => {
-        return <Tag key={tag} tag={tag} onDelete={onDelete} flag={setClick} />;
+      {tagList.map((tag, index) => {
+        return (
+          <Tag
+            key={index}
+            tag={tag.content}
+            onDelete={onDelete}
+            flag={setClick}
+          />
+        );
       })}
     </ul>
   );
