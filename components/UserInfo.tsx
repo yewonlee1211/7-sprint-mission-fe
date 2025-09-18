@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "./UserInfo.module.css";
+import { dateFormating } from "@/utils/dateFormating";
 
 type User = {
   id: string;
@@ -23,7 +24,7 @@ export default function UserInfo({ user, updatedAt }: Props) {
       />
       <div className={styles.subTextData}>
         <div className={styles.nickname}>{user.nickname}</div>
-        <div className={styles.updatedAt}>{updatedAt} </div>
+        <div className={styles.updatedAt}>{dateFormating(updatedAt)} </div>
       </div>
     </div>
   );

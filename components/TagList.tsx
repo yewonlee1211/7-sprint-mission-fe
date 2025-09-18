@@ -20,7 +20,7 @@ export function Tag({ tag, onDelete, flag }: TagProps) {
 
   return (
     <li className={styles.tag}>
-      <div className={styles.text}>{tag}</div>
+      <div className={styles.text}>{`#` + tag}</div>
       {onDelete && (
         <Image
           className={styles.icon}
