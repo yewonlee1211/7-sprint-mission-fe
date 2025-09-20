@@ -63,13 +63,13 @@ export function useDescription() {
 
 export function useTag() {
   const [tag, setTag] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<{ content: string }[]>([]);
 
   const handleTag = (value: string) => {
     if (value !== value.trim() && checkMax(tag) && !checkBlank(tag)) {
-      if (!tags.includes(tag)) {
+      if (!tags.some((t) => t.content === tag)) {
         setTags((prev) => {
-          return [...prev, tag];
+          return [...prev, { content: tag }];
         });
       }
       setTag("");

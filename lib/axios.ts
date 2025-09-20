@@ -1,4 +1,9 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  AxiosResponse,
+} from "axios";
 import { API_CONFIG } from "./config";
 import { postLogout } from "./api/user";
 
@@ -13,6 +18,19 @@ const apiClient = axios.create({
   },
 });
 
+apiClient.interceptors.request.use(
+  (config: AxiosRequestConfig & { headers: AxiosRequestHeaders }) => {
+    console.log("-----------");
+    console.log("request 인터셉터 내부");
+    console.log(config.url);
+    console.log("-----------");
+    return config;
+  },
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  }
+);
+
 // _retry 플래그를 위한 타입 확장
 interface RetryAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
@@ -25,7 +43,14 @@ apiClient.interceptors.response.use(
     const originalRequest = (error.config || {}) as RetryAxiosRequestConfig;
     const status = error.response?.status;
     console.log("인터셉터 내부");
+    console.error(error.config?.url);
     console.error(error);
+
+    // refresh token 요청 자체가 401이면 무한 루프 방지
+    if (originalRequest.url?.includes("/auth/refresh/token")) {
+      console.log("refresh token 요청이 401 에러 - 로그아웃 상태로 처리");
+      return Promise.reject(error);
+    }
 
     if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -34,8 +59,15 @@ apiClient.interceptors.response.use(
         await apiClient.post("/auth/refresh/token", {
           _retry: true,
         } as RetryAxiosRequestConfig);
-        return apiClient(originalRequest);
+
+        // 새로운 요청 객체 생성하여 재시도
+        const newRequest = {
+          ...originalRequest,
+          _retry: true,
+        };
+        return apiClient(newRequest);
       } catch (refreshError) {
+        console.log("토큰 갱신 실패 - 로그아웃 처리");
         return Promise.reject(refreshError);
       }
     } else {

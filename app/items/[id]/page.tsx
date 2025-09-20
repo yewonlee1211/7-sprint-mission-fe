@@ -51,12 +51,7 @@ export default async function ItemIdPage({ params }: Props) {
               </div>
               <div className={styles.subInfo}>
                 <UserInfo user={item.user} updatedAt={item.updatedAt} />
-                <Hearts
-                  heartId={item.productHeart?.id}
-                  heartCount={item._count?.productHeart}
-                  isHearted={item.productHeart.length}
-                  productId={item.id}
-                />
+                <Hearts productId={item.id} size="big" />
               </div>
             </div>
           </div>

@@ -8,7 +8,6 @@ export default function UnauthorizedError() {
 
   useEffect(() => {
     const refreshToken = async () => {
-      console.log("진입함");
       try {
         setIsRefreshing(true);
 

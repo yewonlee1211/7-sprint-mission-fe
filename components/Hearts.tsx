@@ -4,8 +4,8 @@ import Image from "next/image";
 import IcHeart from "@/public/icon/ic_heart.svg";
 import IcHeartFilled from "@/public/icon/ic_heart_filled.svg";
 import styles from "./Hearts.module.css";
-import { MouseEvent, useState } from "react";
-import { createHeart, deleteHeart } from "@/lib/api/hearts";
+import { MouseEvent, useEffect, useState } from "react";
+import { createHeart, deleteHeart, getHeart } from "@/lib/api/hearts";
 
 function heartSize(size: string) {
   switch (size) {
@@ -26,53 +26,63 @@ function heartCounting(heartCount: number) {
 }
 
 interface Props {
-  heartId?: { id: string };
   productId?: string;
   articleId?: string;
-  heartCount: number;
-  isHearted: boolean;
   size?: string;
 }
 
 // 여기서 id는 heart 기록의 아이디
 export default function Hearts({
-  heartId,
   productId,
   articleId,
-  heartCount,
-  isHearted,
   size = "middle",
 }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
   const category = productId ? "productHeart" : "articleHeart";
-  const id = heartId ? heartId.id : undefined;
+  const [heart, setHeart] = useState({
+    id: "",
+    count: 0,
+    isHearted: false,
+  });
+  const [isClicked, setIsClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleHeartBtn = (e: MouseEvent<HTMLImageElement>) => {
+  const handleHeartBtn = async (e: MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
-
-    // 아직 기존 데이터 전송 도중이라면(patch든 post든) 버튼 작동 막음
-    if (isLoading) {
-      return;
-    }
-
-    if (id) {
-      deleteHeart(category, id);
+    setIsLoading(true);
+    if (heart.id) {
+      await deleteHeart(category, heart.id);
+      setIsClicked((prev) => !prev);
     } else {
-      // id가 없다 -> 새롭게 좋아요를 누른 것 -> 좋아요 기록 생성
-      createHeart(category, productId, articleId);
+      await createHeart(category, productId, articleId);
+      setIsClicked((prev) => !prev);
     }
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      const res = await getHeart(category, productId || articleId);
+      console.log(res);
+      setIsLoading(false);
+    };
+
+    getData();
+  }, [isClicked]);
+
+  if (isLoading) {
+    return;
+  }
 
   return (
     <div className={`${styles.heart} ${heartSize(size)}`}>
       <Image
-        src={isHearted ? IcHeartFilled : IcHeart}
+        src={heart.isHearted ? IcHeartFilled : IcHeart}
         onClick={handleHeartBtn}
         className={`${styles.heartBtn} ${heartSize(size)}`}
         alt="이미지"
       />
       <div className={`${styles.heartCount} ${heartSize(size)}`}>
-        {heartCounting(heartCount)}
+        {heartCounting(heart.count)}
       </div>
     </div>
   );

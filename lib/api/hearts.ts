@@ -23,3 +23,12 @@ export async function createHeart(
     console.error(e);
   }
 }
+
+export async function getHeart(category: string, id?: string) {
+  try {
+    const res = await apiClient.get(`/${category}/${id}`);
+    return res;
+  } catch (e) {
+    console.error(e);
+  }
+}

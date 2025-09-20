@@ -6,14 +6,14 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface TagProps {
   tag: string;
-  onDelete?: Dispatch<SetStateAction<string[]>>;
+  onDelete?: Dispatch<SetStateAction<{ content: string }[]>>;
   flag: Dispatch<SetStateAction<boolean>>;
 }
 
 export function Tag({ tag, onDelete, flag }: TagProps) {
   const handleDeleteTag = onDelete
     ? () => {
-        onDelete((prev) => prev.filter((origin) => origin !== tag));
+        onDelete((prev) => prev.filter((origin) => origin.content !== tag));
         flag((prev) => !prev);
       }
     : () => {};
@@ -41,7 +41,7 @@ interface Tag {
 
 interface Props {
   tagList: Tag[];
-  onDelete?: Dispatch<SetStateAction<string[]>>;
+  onDelete?: Dispatch<SetStateAction<{ content: string }[]>>;
 }
 
 export default function TagList({ tagList, onDelete }: Props) {

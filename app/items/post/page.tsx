@@ -26,7 +26,7 @@ export default function ItemsPostPage() {
         name: nameObj.element,
         price: priceObj.element,
         description: descObj.element,
-        tags: tagObj.tagList,
+        tags: tagObj.tagList.map((tag) => tag.content),
       });
       router.push(`/items/${res.data.id}`);
       return;
