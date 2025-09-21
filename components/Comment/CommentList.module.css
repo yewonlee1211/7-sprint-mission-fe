@@ -1,0 +1,120 @@
+.postComment {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.input {
+  width: 100%;
+  height: 104px;
+  padding: 16px 24px;
+
+  border-radius: 12px;
+  background: var(--Cool-Gray-100, #f3f4f6);
+  border: none;
+
+  resize: none;
+
+  color: var(--Secondary-400, #111827);
+
+  /* pretendard/lg-16px-regular */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 162.5% */
+}
+
+.input::placeholder {
+  color: var(--Secondary-400, #9ca3af);
+
+  /* pretendard/lg-16px-regular */
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 162.5% */
+}
+
+.input:focus {
+  outline: none;
+}
+
+.btn {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 7px;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--Secondary-300, #e5e7eb);
+  background: #fcfcfc;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.text {
+  flex-grow: 1;
+  color: var(--Secondary-800, #1f2937);
+
+  /* pretendard/md-14px-regular */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.userImg {
+  background-color: #d1d5db;
+  border-radius: 50px;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nickname {
+  color: var(--Secondary-600, #4b5563);
+
+  /* pretendard/xs-12px-regular */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+}
+
+.date {
+  color: var(--Secondary-400, #9ca3af);
+
+  /* pretendard/xs-12px-regular */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+}

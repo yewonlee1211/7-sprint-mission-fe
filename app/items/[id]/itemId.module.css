@@ -1,8 +1,8 @@
 .background {
   width: 100vw;
-  height: 100vh;
+  height: fit-content;
 
-  margin-top: 69px;
+  margin-top: 94px;
 
   display: flex;
   align-items: center;

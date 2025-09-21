@@ -10,7 +10,7 @@ export default function SellingItemsSection() {
   const [params, setParams] = useState({
     order: "최신순",
     keyword: "",
-    maxpage: 10,
+    maxpage: 1,
     page: 1,
   });
 

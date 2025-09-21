@@ -44,10 +44,11 @@ export default function Pagenation({ page, maxPage, setPage }: Props) {
   const handlePageLeftRight = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const pageArray = pageFieldFind(currentPage, totalPages);
-    const newPage =
-      e.currentTarget.textContent === "<"
-        ? Math.max((pageArray[0] || 1) - 5, 1)
-        : (pageArray[pageArray.length - 1] || 1) + 1;
+    const isLeftButton =
+      e.currentTarget.getAttribute("data-direction") === "left";
+    const newPage = isLeftButton
+      ? Math.max((pageArray[0] || 1) - 5, 1)
+      : (pageArray[pageArray.length - 1] || 1) + 1;
     setPage(newPage);
   };
 
@@ -75,8 +76,14 @@ export default function Pagenation({ page, maxPage, setPage }: Props) {
           }`}
           onClick={handlePageLeftRight}
           disabled={!hasPrevPage}
+          data-direction="left"
         >
-          {"<"}
+          <Image
+            src={"/icon/ic_arrow_left.svg"}
+            width={16}
+            height={16}
+            alt="왼쪽버튼"
+          />
         </button>
         {pageFieldFind(currentPage, totalPages).map((p: number) => {
           return (
@@ -100,8 +107,14 @@ export default function Pagenation({ page, maxPage, setPage }: Props) {
             }`}
             onClick={handlePageLeftRight}
             disabled={!hasNextPage}
+            data-direction="right"
           >
-            {">"}
+            <Image
+              src={"/icon/ic_arrow_right.svg"}
+              width={16}
+              height={16}
+              alt="오른쪽버튼"
+            />
           </button>
         )}
       </ol>

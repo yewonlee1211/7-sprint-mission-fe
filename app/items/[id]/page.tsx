@@ -6,6 +6,7 @@ import UnauthorizedError from "@/components/UnauthorizedError";
 import DropOptions from "@/components/DropOptions";
 import Hearts from "@/components/Hearts";
 import TagList from "@/components/TagList";
+import CommentSection from "@/components/Comment/CommentSection";
 
 interface Props {
   params: {
@@ -55,15 +56,7 @@ export default async function ItemIdPage({ params }: Props) {
               </div>
             </div>
           </div>
-          {/* <CommentSection type={"product"} id={id} />
-        <CustomButtonSquare
-          text="목록으로 돌아가기"
-          onClick={() => {
-            router.push("/items");
-          }}
-          valid={true}
-          round={true}
-        /> */}
+          <CommentSection type="product" id={id} />
         </div>
       </div>
     );
