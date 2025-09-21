@@ -16,8 +16,8 @@ export async function createHeart(
 ) {
   try {
     const res = await apiClient.post(`/${category}`, {
-      ...(productId ? { productId } : {}),
-      ...(articleId ? { articleId } : {}),
+      ...(productId && { productId }),
+      ...(articleId && { articleId }),
     });
   } catch (e) {
     console.error(e);
@@ -27,7 +27,7 @@ export async function createHeart(
 export async function getHeart(category: string, id?: string) {
   try {
     const res = await apiClient.get(`/${category}/${id}`);
-    return res;
+    return res.data;
   } catch (e) {
     console.error(e);
   }

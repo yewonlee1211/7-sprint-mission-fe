@@ -61,8 +61,8 @@ export default function Hearts({
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-      const res = await getHeart(category, productId || articleId);
-      console.log(res);
+      const heart = await getHeart(category, productId || articleId);
+      setHeart({ id: heart.id, count: heart.count, isHearted: heart?.id });
       setIsLoading(false);
     };
 
