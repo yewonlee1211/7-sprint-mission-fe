@@ -38,7 +38,7 @@ export default async function ItemIdPage({ params }: Props) {
                     <div className={styles.itemName}>{item.name}</div>
                     <div className={styles.itemPrice}>{item.price} </div>
                   </div>
-                  {item.isOwn && <DropOptions />}
+                  {item.isOwn && <DropOptions type="items" id={id} />}
                 </div>
                 <div className={styles.itemText}>
                   <div className={styles.subTitle}>상품 소개</div>

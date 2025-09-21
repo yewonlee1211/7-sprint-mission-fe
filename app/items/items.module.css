@@ -1,8 +1,16 @@
-.main {
-  width: 1920px;
+.background {
+  width: 100vw;
+  padding-top: 94px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 26px 360px 140px;
+}
+
+.main {
+  width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

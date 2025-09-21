@@ -4,9 +4,11 @@ import styles from "./items.module.css";
 
 export default function ItemsPage() {
   return (
-    <div className={styles.main}>
-      <BestItemsSection />
-      <SellingItemsSection />
+    <div className={styles.background}>
+      <div className={styles.main}>
+        <BestItemsSection />
+        <SellingItemsSection />
+      </div>
     </div>
   );
 }

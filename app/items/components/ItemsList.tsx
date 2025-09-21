@@ -8,22 +8,23 @@ import Item, { ItemInterface } from "./Item";
 import apiClient from "@/lib/axios";
 
 interface Props {
-  params: { order: string; keyword: string; page: number };
+  params: { order: string; keyword: string; page: number; maxpage: number };
   itemsSection: string;
+  setParams: (params: {
+    order: string;
+    keyword: string;
+    page: number;
+    maxpage: number;
+  }) => void;
 }
 
-function ItemsList({ params, itemsSection }: Props) {
+function ItemsList({ params, itemsSection, setParams }: Props) {
   const [items, setItems] = useState<ItemInterface[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { isLoading: authLoading } = useAuth();
 
   useEffect(() => {
-    console.log("=== ItemsList useEffect 실행 ===");
-    console.log("현재 쿠키:", document.cookie);
-    console.log("axios withCredentials:", apiClient.defaults.withCredentials);
-    console.log("axios baseURL:", apiClient.defaults.baseURL);
-
     if (authLoading) {
       return;
     }
@@ -32,7 +33,9 @@ function ItemsList({ params, itemsSection }: Props) {
       try {
         setLoading(true);
         const res = await getProducts(params);
-        setItems(res.data || []);
+        console.log(res);
+        setParams({ ...params, maxpage: res.data.pagination.totalPages });
+        setItems(res.data.products || []);
       } catch (err: any) {
         console.error("상품 데이터 로드 실패:", err);
         setError(err.message);
@@ -42,7 +45,7 @@ function ItemsList({ params, itemsSection }: Props) {
     };
 
     fetchData();
-  }, [authLoading, params]);
+  }, [authLoading, params.keyword, params.order, params.page]);
 
   if (authLoading || loading) {
     return <div>로딩 중...</div>;

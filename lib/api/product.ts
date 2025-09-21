@@ -26,6 +26,16 @@ export async function getProducts(params: {
   }
 }
 
+export async function getProductById(id: string) {
+  try {
+    const response = await apiClient.get(`/product/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    throw error;
+  }
+}
+
 export async function postProduct(data: {
   name: string;
   price: string;
@@ -44,12 +54,31 @@ export async function postProduct(data: {
   }
 }
 
-export async function getProductById(id: string) {
+export async function patchProduct(
+  id: string,
+  data: {
+    name?: string;
+    price?: string;
+    description?: string;
+    tags?: string[];
+    deleted?: boolean;
+  }
+) {
   try {
-    const response = await apiClient.get(`/product/${id}`);
-    return response.data;
+    const response = await apiClient.patch(`/product/${id}`, { data });
+    return response;
   } catch (error) {
-    console.error("Error fetching product:", error);
+    console.error("Error updating product:", error);
+    throw error;
+  }
+}
+
+export async function deleteProduct(id: string) {
+  try {
+    const response = await apiClient.delete(`/product/${id}`);
+    return response;
+  } catch (error) {
+    console.error("Error deleting product:", error);
     throw error;
   }
 }

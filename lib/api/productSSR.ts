@@ -34,7 +34,7 @@ export async function getBestProductsByIdSSR() {
         Cookie: cookieHeader,
       },
     });
-    return response.data;
+    return response.data.products;
   } catch (error) {
     console.error("SSR 상품 요청 실패:", error);
 

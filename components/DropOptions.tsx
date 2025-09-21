@@ -3,14 +3,26 @@
 import Image from "next/image";
 import { useState } from "react";
 import styles from "./DropOptions.module.css";
+import { useRouter } from "next/navigation";
+import { deleteProduct } from "@/lib/api/product";
 
 interface Props {
-  onPatch?: () => void;
-  onDelete?: () => void;
+  type: string;
+  id: string;
 }
 
-export default function DropOptions({ onPatch, onDelete }: Props) {
+export default function DropOptions({ type, id }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  const onPatch = () => {
+    router.push(`/${type}/post/${id}`);
+  };
+
+  const onDelete = async () => {
+    const response = await deleteProduct(id);
+    router.push(`/${type}`);
+  };
 
   return (
     <div

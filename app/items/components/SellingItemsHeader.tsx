@@ -8,6 +8,7 @@ import CustomLink from "@/components/CustomLink";
 type Value = {
   order: string;
   keyword: string;
+  maxpage: number;
   page: number;
 };
 

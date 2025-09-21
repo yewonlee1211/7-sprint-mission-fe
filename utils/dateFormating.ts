@@ -4,7 +4,9 @@ export function dateFormating(rawDate: string) {
   const diffTime = Math.abs(now.getTime() - date.getTime());
   const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
 
-  if (diffHours < 1) {
+  console.log(diffHours);
+
+  if (diffHours < 2) {
     return `${Math.ceil(diffTime / (1000 * 60))}분 전`;
   }
   if (diffHours < 24) {
