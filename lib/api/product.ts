@@ -1,15 +1,24 @@
 import apiClient from "../axios";
 
+// lib/api/product.ts
+
 export async function getProducts(params: {
   keyword: string;
   order: string;
   page: number;
 }) {
   try {
+    console.log("=== getProducts 호출 ===");
+    console.log("현재 쿠키:", document.cookie);
+    console.log("axios withCredentials:", apiClient.defaults.withCredentials);
+
     const res = await apiClient.get("/product", { params });
+    console.log("API 응답 성공:", res.status);
     return res;
   } catch (e: unknown) {
-    // AxiosError인지 확인
+    console.error("=== getProducts 에러 ===");
+    console.error("에러:", e);
+
     if (e instanceof Error) {
       throw e;
     }

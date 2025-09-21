@@ -37,37 +37,31 @@ interface RetryAxiosRequestConfig extends AxiosRequestConfig {
 }
 
 // 응답 인터셉터: 401 발생 시 토큰 갱신 시도 후 재시도
+// lib/axios.ts
+
 apiClient.interceptors.response.use(
   (res: AxiosResponse) => res,
   async (error: AxiosError) => {
     const originalRequest = (error.config || {}) as RetryAxiosRequestConfig;
     const status = error.response?.status;
-    console.log("인터셉터 내부");
-    console.error(error.config?.url);
-    console.error(error);
 
     // refresh token 요청 자체가 401이면 무한 루프 방지
     if (originalRequest.url?.includes("/auth/refresh/token")) {
-      console.log("refresh token 요청이 401 에러 - 로그아웃 상태로 처리");
       return Promise.reject(error);
     }
 
     if (status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        // 백엔드의 리프레시 엔드포인트 호출 (쿠키 기반), 토큰 갱신 후 원 요청 재시도
-        await apiClient.post("/auth/refresh/token", {
-          _retry: true,
-        } as RetryAxiosRequestConfig);
+        await apiClient.post("/auth/refresh/token");
 
-        // 새로운 요청 객체 생성하여 재시도
+        // 새로운 요청 객체 생성 시 _retry 상태 초기화
         const newRequest = {
           ...originalRequest,
-          _retry: true,
+          _retry: false, // <- 이렇게 초기화
         };
         return apiClient(newRequest);
       } catch (refreshError) {
-        console.log("토큰 갱신 실패 - 로그아웃 처리");
         return Promise.reject(refreshError);
       }
     } else {

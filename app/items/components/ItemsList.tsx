@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthProvider";
 import { getProducts } from "@/lib/api/product";
 import { useRouter } from "next/navigation";
+import apiClient from "@/lib/axios";
 
 interface Item {
   id: string;
@@ -68,23 +69,30 @@ function ItemsList({ params, itemsSection }: ListProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { isLoading: authLoading } = useAuth();
+  const [isRequesting, setIsRequesting] = useState(false);
 
   useEffect(() => {
-    if (authLoading) {
+    console.log("=== ItemsList useEffect 실행 ===");
+    console.log("현재 쿠키:", document.cookie);
+    console.log("axios withCredentials:", apiClient.defaults.withCredentials);
+    console.log("axios baseURL:", apiClient.defaults.baseURL);
+
+    if (authLoading || isRequesting) {
       return;
     }
 
     const fetchData = async () => {
       try {
+        setIsRequesting(true); // 요청 시작
         setLoading(true);
         const res = await getProducts(params);
-        console.log(res);
         setItems(res.data || []);
       } catch (err: any) {
         console.error("상품 데이터 로드 실패:", err);
         setError(err.message);
       } finally {
         setLoading(false);
+        // setIsRequesting(false); // 요청 완료
       }
     };
 

@@ -72,6 +72,7 @@ export default async function ItemIdPage({ params }: Props) {
       if (error.message.includes("401")) {
         return <UnauthorizedError />;
       }
+      return <div>Error</div>;
     }
     return;
   }
